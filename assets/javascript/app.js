@@ -231,9 +231,6 @@ $.ajax({
 })
 	
 	.done(function(response) {
-	
-		console.log(response);
-		console.log(countriesList);
 
 	for (var i = 0; i < response.data.length ; i++ ){
 		var hold = response.data[i];
@@ -285,8 +282,7 @@ var secondAPI = function(input){
 		url: queryURL,
 		method: "GET"
 	}).done(function(response) {
-		console.log(response);
-
+	
 		for (var y = 0; y < response.results[0].measurements.length; y++){
 			var parameter = response.results[0].measurements[y].parameter;
 			var value = response.results[0].measurements[y].value;
@@ -315,15 +311,16 @@ var retrieve = function(){
 	database.ref().on("child_added", function(snapshot) {
 		country = snapshot.val().country;
 		cityAQ = snapshot.val().cityAQ;
+		city = snapshot.val().city;
 
 		var row = $("<tr>");
-		row.append("<td>" + country + "</td>");
 		row.append("<td>" + cityAQ + "</td>");
-
+		row.append("<td>" + city + "</td>");
+		row.append("<td>" + country + "</td>");
+		
 		$("#tbody").append(row);
 
 	}, function(errorObject){
-		console.log(errorObject);
 		});
 };
 
@@ -342,10 +339,11 @@ $("#submit").on("click" , function(event){
     event.preventDefault();
     input = $("#keyWord").val();
     var inputIndex = cities.indexOf(input);
+    $("#keyWord").val("");
 
     if (inputIndex > 0) {
         secondAPI(cities[inputIndex]);
-        $("#keyWord").val("");
+        
     } else {
         $("#myModal").modal();
     }
