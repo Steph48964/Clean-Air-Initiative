@@ -1,29 +1,29 @@
 
 var cities = 	["ALBERTA",
-				"Atlanta-Sandy Springs-Marietta",
-               	"Bogota",
-               	"Brandenburg",
-               	"Chengdu",
-               	"Delhi",
-               	"El Bosque",
-               	"İstanbul",
-               	"Kansas City",
-               	"Jakarta",
-               	"Lisboa",
-               	"London",
-               	"Los Angeles-Long Beach-Santa Ana",
-               	"Minneapolis-St. Paul-Bloomington",
-               	"NEW YORK",
-               	"Oost-Vlaanderen",
-               	"Osasco",                 
-               	"Oslo",
-               	"Roma",
-               	"San Antonio",
-               	"Seattle-Tacoma-Bellevue",
-               	"South East Queensland",
-               	"Středočeský",
-               	"Tampa-St. Petersburg-Clearwater",
-               	"Ulaanbaatar"];
+					"Atlanta-Sandy Springs-Marietta",
+               "Bogota",
+               "Brandenburg",
+               "Chengdu",
+               "Delhi",
+               "El Bosque",
+               "İstanbul",
+               "Kansas City",
+               "Jakarta",
+               "Lisboa",
+               "London",
+               "Los Angeles-Long Beach-Santa Ana",
+               "Minneapolis-St. Paul-Bloomington",
+               "NEW YORK",
+               "Oost-Vlaanderen",
+               "Osasco",                 
+              	"Oslo",
+               "Roma",
+               "San Antonio",
+               "Seattle-Tacoma-Bellevue",
+               "South East Queensland",
+               "Středočeský",
+               "Tampa-St. Petersburg-Clearwater",
+               "Ulaanbaatar"];
 
 var description;
 var images = [];
@@ -209,12 +209,12 @@ var countriesList = [
 ];
 
 var config = {
-		apiKey: "AIzaSyCWlmhjcyuT8F60G7LcgbyI1zIY1IfhS5I",
-		authDomain: "air-pollution-c03c3.firebaseapp.com",
-		databaseURL: "https://air-pollution-c03c3.firebaseio.com",
-		projectId: "air-pollution-c03c3",
-		storageBucket: "air-pollution-c03c3.appspot.com",
-		messagingSenderId: "229702085661"
+	apiKey: "AIzaSyCWlmhjcyuT8F60G7LcgbyI1zIY1IfhS5I",
+	authDomain: "air-pollution-c03c3.firebaseapp.com",
+	databaseURL: "https://air-pollution-c03c3.firebaseio.com",
+	projectId: "air-pollution-c03c3",
+	storageBucket: "air-pollution-c03c3.appspot.com",
+	messagingSenderId: "229702085661"
 };
 
 firebase.initializeApp(config);
@@ -225,32 +225,32 @@ var cityAQ = 0;
 
 var queryURL = "https://api.airvisual.com//v2/city_ranking?key=7nsRkFTrepCQ4LCmX";
 
-$.ajax({
+$.ajax ({
 	url: queryURL,
 	method: "GET"
 })
 	
 	.done(function(response) {
 
-	for (var i = 0; i < response.data.length ; i++ ){
-		var hold = response.data[i];
-		var city = hold.city;
-		var state = hold.state;
+		for (var i = 0; i < response.data.length ; i++ ) {
+			var hold = response.data[i];
+			var city = hold.city;
+			var state = hold.state;
 
-		for (var j = 0; j < countriesList.length; j++) {
-			if (city === countriesList[j].id){
-				countriesList[j].value = response.data[i].ranking.current_aqi;
-			};
+			for (var j = 0; j < countriesList.length; j++) {
+				if (city === countriesList[j].id){
+					countriesList[j].value = response.data[i].ranking.current_aqi;
+				};
 
-			if (state === countriesList[j].id){
-				countriesList[j].value = response.data[i].ranking.current_aqi;
-			}  
+				if (state === countriesList[j].id) {
+					countriesList[j].value = response.data[i].ranking.current_aqi;
+				}  
+			}
 		}
-	}
 
-	render();
+		render();
 	
-});
+	});
 
 function render() {
 	AmCharts.makeChart("mapdiv", {
@@ -265,7 +265,8 @@ function render() {
 		},
 
 		areasSettings: {
-			autoZoom: true
+			autoZoom: false,
+			selectable: true
 		},
 
 		valueLegend: {
@@ -276,29 +277,28 @@ function render() {
 	});
 };
 
-var secondAPI = function(input){
+var secondAPI = function(input) {
 	var queryURL = "https://api.openaq.org/v1/latest?city=" + input;
 	$.ajax({
 		url: queryURL,
 		method: "GET"
 	}).done(function(response) {
 	
-		for (var y = 0; y < response.results[0].measurements.length; y++){
+		for (var y = 0; y < response.results[0].measurements.length; y++) {
 			var parameter = response.results[0].measurements[y].parameter;
 			var value = response.results[0].measurements[y].value;
 			var unit = response.results[0].measurements[y].unit; 
 			des = (parameter + " = " + value +" " + unit );
-
 		};
 		
 		var box = new Object();
-		box.label = "";
+		box.label = " ";
 		box.title = response.results[0].city;
 		box.latitude = response.results[0].coordinates.latitude;
 		box.longitude = response.results[0].coordinates.longitude;
 		box.type = "circle";
 		box.alpha = 0.7;
-		box.scale= 0.9;
+		box.scale = 0.9;
 		box.selectable = true;		
 		box.description = des;
 		images.push(box);
@@ -307,7 +307,7 @@ var secondAPI = function(input){
 	});
 };
 
-var retrieve = function(){
+var retrieve = function() {
 	database.ref().on("child_added", function(snapshot) {
 		country = snapshot.val().country;
 		cityAQ = snapshot.val().cityAQ;
@@ -319,8 +319,10 @@ var retrieve = function(){
 		row.append("<td>" + country + "</td>");
 		
 		$("#tbody").append(row);
+	}, 
 
-	}, function(errorObject){
+		function(errorObject){
+
 		});
 };
 
@@ -335,17 +337,17 @@ $(function () {
 	});
 });
 
-$("#submit").on("click" , function(event){
-    event.preventDefault();
-    input = $("#keyWord").val();
-    var inputIndex = cities.indexOf(input);
-    $("#keyWord").val("");
+$("#submit").on("click", function(event) {
+   event.preventDefault();
+   input = $("#keyWord").val();
+   var inputIndex = cities.indexOf(input);
+   $("#keyWord").val(" ");
 
-    if (inputIndex > 0) {
-        secondAPI(cities[inputIndex]);
+   if (inputIndex > 0) {
+      secondAPI(cities[inputIndex]);
         
-    } else {
-        $("#myModal").modal();
-    }
+   } else {
+      $("#myModal").modal();
+   }
 })
 

@@ -11,6 +11,25 @@ h3 {
 
 p {
 	margin: 10px;
+	margin-bottom: 10px;
+}
+
+input::-webkit-calendar-picker-indicator {
+  	display: none;
+}
+
+footer {
+	background-color: #006699;
+	font-size: .6em;
+	text-align: center;
+	height: 60px;
+	margin: 20px;
+	color: #F8F8FF;
+	padding-top: 10px;
+}
+
+thead {
+	font-weight: 800;
 }
 
 .header {
@@ -72,7 +91,7 @@ p {
 	margin-top: 5px;
 }
 
-#keyWord{
+#keyWord {
 	border: solid .5px #e4d393;
 	border-radius: 5px;
 	padding: 3px;
@@ -80,7 +99,7 @@ p {
 	font-size: .8em;
 }
 
-#submit{
+#submit {
 	border: solid .5px #8b8b8b;
 	border-radius: 5px;
 	height: 25px;
@@ -89,20 +108,3 @@ p {
 	color: #8b8b8b
 }
 
-input::-webkit-calendar-picker-indicator {
-  	display: none;
-}
-
-footer{
-	background-color: #006699;
-	font-size: .6em;
-	text-align: center;
-	height: 60px;
-	margin: 20px;
-	color: #F8F8FF;
-	padding-top: 10px;
-}
-
-thead{
-	font-weight: 800;
-}
