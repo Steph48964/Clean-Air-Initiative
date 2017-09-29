@@ -1,30 +1,29 @@
 
 var cities = 	["ALBERTA",
-					"Atlanta-Sandy Springs-Marietta",
-               "Bogota",
-               "Brandenburg",
-               "Chengdu",
-               "Delhi",
-               "El Bosque",
-               "İstanbul",
-               "Kansas City",
-               "Jakarta",
-               "Lisboa",
-               "London",
-               "Los Angeles-Long Beach-Santa Ana",
-               "Minneapolis-St. Paul-Bloomington",
-               "Moscow",
-               "NEW YORK",
-               "Oost-Vlaanderen",
-               "Osasco",                 
-               "Oslo",
-               "Roma",
-               "San Antonio",
-               "Seattle-Tacoma-Bellevue",
-               "South East Queensland",
-               "Středočeský",
-               "Tampa-St. Petersburg-Clearwater",
-               "Ulaanbaatar"];
+				"Atlanta-Sandy Springs-Marietta",
+               	"Bogota",
+               	"Brandenburg",
+               	"Chengdu",
+               	"Delhi",
+               	"El Bosque",
+               	"İstanbul",
+               	"Kansas City",
+               	"Jakarta",
+               	"Lisboa",
+               	"London",
+               	"Los Angeles-Long Beach-Santa Ana",
+               	"Minneapolis-St. Paul-Bloomington",
+               	"NEW YORK",
+               	"Oost-Vlaanderen",
+               	"Osasco",                 
+               	"Oslo",
+               	"Roma",
+               	"San Antonio",
+               	"Seattle-Tacoma-Bellevue",
+               	"South East Queensland",
+               	"Středočeský",
+               	"Tampa-St. Petersburg-Clearwater",
+               	"Ulaanbaatar"];
 
 var description;
 var images = [];
@@ -226,7 +225,6 @@ var cityAQ = 0;
 
 var queryURL = "https://api.airvisual.com//v2/city_ranking?key=7nsRkFTrepCQ4LCmX";
 
-
 $.ajax({
 	url: queryURL,
 	method: "GET"
@@ -278,7 +276,6 @@ function render() {
 			minValue: "Healthy",
 			maxValue: "Hazardous"
 		}
-
 	});
 };
 
@@ -311,7 +308,6 @@ var secondAPI = function(input){
 		images.push(box);
 
 		render();
-
 	});
 };
 
@@ -328,20 +324,10 @@ var retrieve = function(){
 
 	}, function(errorObject){
 		console.log(errorObject);
-	});
+		});
 };
 
 retrieve();
-
-
-$("#submit").on("click" , function(event){
-	event.preventDefault();
-	dataInBox = $("#keyWord").val();
-
-	secondAPI(dataInBox);
-
-	$("#keyWord").val("");
-})
 
 $(function () {
 	var list = document.getElementById("citiesList");
@@ -351,4 +337,17 @@ $(function () {
 		list.appendChild(option);
 	});
 });
+
+$("#submit").on("click" , function(event){
+    event.preventDefault();
+    input = $("#keyWord").val();
+    var inputIndex = cities.indexOf(input);
+
+    if (inputIndex > 0) {
+        secondAPI(cities[inputIndex]);
+        $("#keyWord").val("");
+    } else {
+        $("#myModal").modal();
+    }
+})
 
